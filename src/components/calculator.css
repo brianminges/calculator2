@@ -31,6 +31,8 @@ body {
     min-height: 63px;
     padding: 10px;
     text-align: right;
+    word-break: break-all;
+    word-wrap: break-word;
 }
 
 .calculator__buttons {
@@ -62,6 +64,11 @@ body {
 
 .calculator__operator {
     background-color: #EB6440;
+}
+
+.calculator__button:active, 
+.calculator__operator:active {
+    box-shadow: 0px 0px 3px red;
 }
  
 #ac {
