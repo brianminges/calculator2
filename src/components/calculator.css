@@ -35,6 +35,12 @@ body {
     word-wrap: break-word;
 }
 
+.calculator__screen__previous {
+    color: lightgray;
+    font-size: .8rem;
+    margin-bottom: 10px;
+}
+
 .calculator__buttons {
     display: grid;
     grid-template-columns: repeat(4, 4rem);

@@ -15,18 +15,12 @@ export const Calculator = () => {
     let number = ""
     const setNumber = (value) => {
         if (!operator) {
-            // Allows for multi-digit numbers
+            // Sets first number in equation and allows for multi-digit numbers
             number = current + value
             setCurrent(number)
         }
 
-        // if (operator) {
-        //     setPrevious(current)
-        //     setCurrent("")
-        //     number = current + value
-        //     setCurrent(number)
-        // }
-
+        // Sets second number of an equation and allows for multi-digit numbers
         if (operator) {
             number = test + value
             setTest(number)
@@ -34,17 +28,17 @@ export const Calculator = () => {
     }
 
 
-    useEffect(() => {
-        console.log('test', test)
-    }, [test])
+    // useEffect(() => {
+    //     console.log('test', test)
+    // }, [test])
 
-    useEffect(() => {
-        console.log('current', current)
-    }, [current])
+    // useEffect(() => {
+    //     console.log('current', current)
+    // }, [current])
 
-    useEffect(() => {
-        console.log('previous', previous)
-    }, [previous])
+    // useEffect(() => {
+    //     console.log('previous', previous)
+    // }, [previous])
 
 
 
@@ -56,6 +50,7 @@ export const Calculator = () => {
         if (operator === '/') {
             const quotient = current/test
             setResult(quotient)
+            //Takes result and moves to 'current' to allow process to continue with result as the starting number. Also resets test and operator to make clear display. 
             setCurrent(quotient)
             setTest("")
             setOperator("")
@@ -90,6 +85,7 @@ export const Calculator = () => {
         setResult("")
         setTest("")
     }
+
 
     const equationDisplay = () => {
         if (test && operator === '/' || operator === '-' || operator === '+' || operator === '*') {
