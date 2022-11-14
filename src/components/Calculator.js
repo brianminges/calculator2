@@ -56,18 +56,30 @@ export const Calculator = () => {
         if (operator === '/') {
             const quotient = current/test
             setResult(quotient)
+            setCurrent(quotient)
+            setTest("")
+            setOperator("")
         }
         if (operator === '-') {
             const difference = current - test
             setResult(difference)
+            setCurrent(difference)
+            setTest("")
+            setOperator("")
         }
         if (operator === '*') {
             const product = current * test
             setResult(product)
+            setCurrent(product)
+            setTest("")
+            setOperator("")
         }
         if (operator === '+') {
             const sum = parseInt(current) + parseInt(test)
             setResult(sum)
+            setCurrent(sum)
+            setTest("")
+            setOperator("")
         }
     }
 
@@ -81,13 +93,9 @@ export const Calculator = () => {
 
     const equationDisplay = () => {
         if (test && operator === '/' || operator === '-' || operator === '+' || operator === '*') {
-            return `c${current} ${operator} t${test}`
-        } 
-        // if (test) {
-        //     return `t${test} ${operator} c${current}`
-        // }       
-        else {
-            return `c${current} ${operator}`
+            return `${current} ${operator} ${test}`
+        } else {
+            return `${current || '-'} ${operator}`
         }
 
     }
@@ -97,7 +105,7 @@ export const Calculator = () => {
         <div className="calculator__body">
             <div className="calculator__screen">
                 <div className="calculator__screen__previous">
-                    {equationDisplay()}
+                   {equationDisplay()}
                 </div>
                 <div className="calculator__screen__current">
                     {result}
