@@ -20,7 +20,7 @@ export const Calculator = () => {
             setCurrent(number)
         }
 
-        // Sets second number of an equation and allows for multi-digit numbers
+        // Sets second number in equation and allows for multi-digit numbers
         if (operator) {
             number = test + value
             setTest(number)
@@ -63,14 +63,35 @@ export const Calculator = () => {
             setOperator("")
         }
         if (operator === '*') {
-            const product = current * test
+            let product = (current * test) * 100
+            product = product/100
             setResult(product)
             setCurrent(product)
             setTest("")
             setOperator("")
         }
         if (operator === '+') {
-            const sum = parseInt(current) + parseInt(test)
+            let decimalPlaces = ""
+            let sum = (parseFloat(current) + parseFloat(test)) * 100 
+
+            if (current.includes('.') && test.includes('.')) {
+                const currentSplit = current.split('.')
+                let currentDecimals = currentSplit[1].length
+                const testSplit = test.split('.')
+                let testDecimals = testSplit[1].length
+                if (currentDecimals >= testDecimals) {
+                    decimalPlaces = currentDecimals
+                } else {
+                    decimalPlaces = testDecimals
+                }
+            } else if (current.includes('.')) {
+                let currentSplit = current.split('.')
+                decimalPlaces = currentSplit[1].length
+            } else if (test.includes('.')) {
+                let testSplit = test.split('.')
+                decimalPlaces = testSplit[1].length
+            }
+            sum = (sum/100).toFixed(decimalPlaces)
             setResult(sum)
             setCurrent(sum)
             setTest("")
@@ -80,7 +101,7 @@ export const Calculator = () => {
 
     const clear = () => {
         setCurrent("")
-        setPrevious("")
+        // setPrevious("")
         setOperator("")
         setResult("")
         setTest("")

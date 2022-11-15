@@ -74,7 +74,7 @@ body {
 
 .calculator__button:active, 
 .calculator__operator:active {
-    box-shadow: 0px 0px 3px red;
+    box-shadow: 0px 0px 5px black;
 }
  
 #ac {
