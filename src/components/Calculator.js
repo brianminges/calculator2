@@ -3,38 +3,35 @@ import { NumberButton } from "./NumberButton";
 import { OperatorButton } from "./OperatorButton";
 import "./calculator.css"
 
-
-
 export const Calculator = () => {
-    const [ current, setCurrent ] = useState("")
-    const [ previous, setPrevious ] = useState("")
+    const [ first, setFirst ] = useState("")
+    const [ second, setSecond ] = useState("")
     const [ operator, setOperator ] = useState("")
     const [ result, setResult ] = useState("")
-    const [ test, setTest ] = useState("")
 
     let number = ""
     const setNumber = (value) => {
         if (!operator) {
             // Sets first number in equation and allows for multi-digit numbers
-            number = current + value
-            setCurrent(number)
+            number = first + value
+            setFirst(number)
         }
 
         // Sets second number in equation and allows for multi-digit numbers
         if (operator) {
-            number = test + value
-            setTest(number)
+            number = second + value
+            setSecond(number)
         }
     }
 
 
     // useEffect(() => {
-    //     console.log('test', test)
-    // }, [test])
+    //     console.log('second', second)
+    // }, [second])
 
     // useEffect(() => {
-    //     console.log('current', current)
-    // }, [current])
+    //     console.log('first', first)
+    // }, [first])
 
     // useEffect(() => {
     //     console.log('previous', previous)
@@ -48,71 +45,70 @@ export const Calculator = () => {
 
     const calculate = () => {
         if (operator === '/') {
-            const quotient = current/test
+            const quotient = first/second
             setResult(quotient)
-            //Takes result and moves to 'current' to allow process to continue with result as the starting number. Also resets test and operator to make clear display. 
-            setCurrent(quotient)
-            setTest("")
+            //Takes result and moves to 'first' to allow process to continue with result as the starting number. Also resets second and operator to make clear display. 
+            setFirst(quotient)
+            setSecond("")
             setOperator("")
         }
         if (operator === '-') {
-            const difference = current - test
+            const difference = first - second
             setResult(difference)
-            setCurrent(difference)
-            setTest("")
+            setFirst(difference)
+            setSecond("")
             setOperator("")
         }
         if (operator === '*') {
-            let product = (current * test) * 100
+            let product = (first * second) * 100
             product = product/100
             setResult(product)
-            setCurrent(product)
-            setTest("")
+            setFirst(product)
+            setSecond("")
             setOperator("")
         }
         if (operator === '+') {
+            let sum = (parseFloat(first) + parseFloat(second)) * 100 
+            // The following ensures the correct number of decimal places are returned for floats. It compares the number of decimal places in each number, than uses that in toFixed(). 
             let decimalPlaces = ""
-            let sum = (parseFloat(current) + parseFloat(test)) * 100 
-
-            if (current.includes('.') && test.includes('.')) {
-                const currentSplit = current.split('.')
-                let currentDecimals = currentSplit[1].length
-                const testSplit = test.split('.')
-                let testDecimals = testSplit[1].length
-                if (currentDecimals >= testDecimals) {
-                    decimalPlaces = currentDecimals
+            if (first.includes('.') && second.includes('.')) {
+                const firstSplit = first.split('.')
+                let firstDecimals = firstSplit[1].length
+                const secondSplit = second.split('.')
+                let secondDecimals = secondSplit[1].length
+                if (firstDecimals >= secondDecimals) {
+                    decimalPlaces = firstDecimals
                 } else {
-                    decimalPlaces = testDecimals
+                    decimalPlaces = secondDecimals
                 }
-            } else if (current.includes('.')) {
-                let currentSplit = current.split('.')
-                decimalPlaces = currentSplit[1].length
-            } else if (test.includes('.')) {
-                let testSplit = test.split('.')
-                decimalPlaces = testSplit[1].length
+            } else if (first.includes('.')) {
+                let firstSplit = first.split('.')
+                decimalPlaces = firstSplit[1].length
+            } else if (second.includes('.')) {
+                let secondSplit = second.split('.')
+                decimalPlaces = secondSplit[1].length
             }
             sum = (sum/100).toFixed(decimalPlaces)
             setResult(sum)
-            setCurrent(sum)
-            setTest("")
+            setFirst(sum)
+            setSecond("")
             setOperator("")
         }
     }
 
     const clear = () => {
-        setCurrent("")
-        // setPrevious("")
+        setFirst("")
         setOperator("")
         setResult("")
-        setTest("")
+        setSecond("")
     }
 
 
     const equationDisplay = () => {
-        if (test && operator === '/' || operator === '-' || operator === '+' || operator === '*') {
-            return `${current} ${operator} ${test}`
+        if (second && operator === '/' || operator === '-' || operator === '+' || operator === '*') {
+            return `${first} ${operator} ${second}`
         } else {
-            return `${current || '-'} ${operator}`
+            return `${first || '-'} ${operator}`
         }
 
     }
@@ -124,7 +120,7 @@ export const Calculator = () => {
                 <div className="calculator__screen__previous">
                    {equationDisplay()}
                 </div>
-                <div className="calculator__screen__current">
+                <div className="calculator__screen__first">
                     {result}
                 </div>
             </div>
@@ -148,7 +144,7 @@ export const Calculator = () => {
                 <button onClick={() => setNumber('.')} className="calculator__button">.</button>
                 <button onClick={() => calculate()} id="total">=</button>
                 {/* <OperatorButton operator='/'/> 
-                <NumberButton value='7' setCurrent={setCurrent}/> 
+                <NumberButton value='7' setFirst={setFirst}/> 
                 <NumberButton value='8'/>  
                 <NumberButton value='9'/> 
                 <OperatorButton operator='-'/> 
