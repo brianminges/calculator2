@@ -34,8 +34,8 @@ export const Calculator = () => {
     // }, [first])
 
     // useEffect(() => {
-    //     console.log('previous', previous)
-    // }, [previous])
+    //     console.log('result', result)
+    // }, [result])
 
 
 
@@ -53,11 +53,32 @@ export const Calculator = () => {
             setOperator("")
         }
         if (operator === '-') {
-            const difference = first - second
+            let difference = (parseFloat(first) - parseFloat(second)) *100
+            // The following ensures the correct number of decimal places are returned for floats. It compares the number of decimal places in each number, than uses the larger of those in toFixed(). 
+            let decimalPlaces = ""
+            if (first.includes('.') && second.includes('.')) {
+                const firstSplit = first.split('.')
+                let firstDecimals = firstSplit[1].length
+                const secondSplit = second.split('.')
+                let secondDecimals = secondSplit[1].length
+                if (firstDecimals >= secondDecimals) {
+                    decimalPlaces = firstDecimals
+                } else {
+                    decimalPlaces = secondDecimals
+                }
+            } else if (first.includes('.')) {
+                let firstSplit = first.split('.')
+                decimalPlaces = firstSplit[1].length
+            } else if (second.includes('.')) {
+                let secondSplit = second.split('.')
+                decimalPlaces = secondSplit[1].length
+            }
+            difference = (difference/100).toFixed(decimalPlaces)
             setResult(difference)
             setFirst(difference)
             setSecond("")
             setOperator("")
+            
         }
         if (operator === '*') {
             let product = (first * second) * 100
@@ -69,7 +90,7 @@ export const Calculator = () => {
         }
         if (operator === '+') {
             let sum = (parseFloat(first) + parseFloat(second)) * 100 
-            // The following ensures the correct number of decimal places are returned for floats. It compares the number of decimal places in each number, than uses that in toFixed(). 
+            // The following ensures the correct number of decimal places are returned for floats. It compares the number of decimal places in each number, than uses the larger of those in toFixed(). 
             let decimalPlaces = ""
             if (first.includes('.') && second.includes('.')) {
                 const firstSplit = first.split('.')
