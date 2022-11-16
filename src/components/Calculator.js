@@ -12,15 +12,23 @@ export const Calculator = () => {
     let number = ""
     const setNumber = (value) => {
         if (!operator) {
-            // Sets first number in equation and allows for multi-digit numbers
-            number = first + value
-            setFirst(number)
+            // Sets first number in equation, prevents multiple decimal points and allows for multi-digit numbers
+            if (first.includes('.') && value === '.') {
+                number = number
+            } else {
+                number = first + value
+                setFirst(number)
+            }
         }
 
         // Sets second number in equation and allows for multi-digit numbers
         if (operator) {
-            number = second + value
-            setSecond(number)
+            if (second.includes('.') && value === '.') {
+                number = number
+            } else {
+                number = second + value
+                setSecond(number)
+            }
         }
     }
 
@@ -34,13 +42,18 @@ export const Calculator = () => {
     // }, [first])
 
     // useEffect(() => {
-    //     console.log('previous', previous)
-    // }, [previous])
+    //     console.log('result', result)
+    // }, [result])
 
 
 
     const setOperation = (operator) => {
-        setOperator(operator)
+        // Prevents user from inputting operator without a first number
+        if (!first) {
+            setOperator("")
+        } else {
+            setOperator(operator)
+        }
     }
 
     const calculate = () => {
@@ -53,11 +66,32 @@ export const Calculator = () => {
             setOperator("")
         }
         if (operator === '-') {
-            const difference = first - second
+            let difference = (parseFloat(first) - parseFloat(second)) *100
+            // The following ensures the correct number of decimal places are returned for floats. It compares the number of decimal places in each number, than uses the larger of those in toFixed(). 
+            let decimalPlaces = ""
+            if (first.includes('.') && second.includes('.')) {
+                const firstSplit = first.split('.')
+                let firstDecimals = firstSplit[1].length
+                const secondSplit = second.split('.')
+                let secondDecimals = secondSplit[1].length
+                if (firstDecimals >= secondDecimals) {
+                    decimalPlaces = firstDecimals
+                } else {
+                    decimalPlaces = secondDecimals
+                }
+            } else if (first.includes('.')) {
+                let firstSplit = first.split('.')
+                decimalPlaces = firstSplit[1].length
+            } else if (second.includes('.')) {
+                let secondSplit = second.split('.')
+                decimalPlaces = secondSplit[1].length
+            }
+            difference = (difference/100).toFixed(decimalPlaces)
             setResult(difference)
             setFirst(difference)
             setSecond("")
             setOperator("")
+            
         }
         if (operator === '*') {
             let product = (first * second) * 100
@@ -69,7 +103,7 @@ export const Calculator = () => {
         }
         if (operator === '+') {
             let sum = (parseFloat(first) + parseFloat(second)) * 100 
-            // The following ensures the correct number of decimal places are returned for floats. It compares the number of decimal places in each number, than uses that in toFixed(). 
+            // The following ensures the correct number of decimal places are returned for floats. It compares the number of decimal places in each number, than uses the larger of those in toFixed(). 
             let decimalPlaces = ""
             if (first.includes('.') && second.includes('.')) {
                 const firstSplit = first.split('.')
@@ -102,6 +136,10 @@ export const Calculator = () => {
         setResult("")
         setSecond("")
     }
+
+    // const delNum = () => {
+    //     if (!operator)
+    // }
 
 
     const equationDisplay = () => {
