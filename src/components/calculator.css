@@ -12,7 +12,6 @@ body {
     justify-content: center;
     height: 100vh;
     font-family: 'Roboto', sans-serif;
-    
 }
 
 .calculator__body {
@@ -44,7 +43,7 @@ body {
 .calculator__buttons {
     display: grid;
     grid-template-columns: repeat(4, 4rem);
-    grid-template-rows: repeat(5, 4rem);
+    grid-template-rows: repeat(6, 4rem);
     border: none;
     outline: none;
     gap: 5px;
@@ -59,7 +58,10 @@ body {
     outline: none;
 }
 
-.calculator__buttons button:hover {
+.calculator__buttons button:hover,
+#total:hover,
+#ac:hover,
+#del:hover {
     background-color: gray;
     color: black;
 }
@@ -73,7 +75,10 @@ body {
 }
 
 .calculator__button:active, 
-.calculator__operator:active {
+.calculator__operator:active,
+#total:active,
+#ac:active,
+#del:active {
     box-shadow: 0px 0px 5px black;
 }
  
@@ -91,5 +96,10 @@ body {
     grid-column-start: 3;
     grid-column-end: 5;
     background-color: #EB6440;
+}
+
+#exponent,
+#square {
+    font-style: italic;
 }
 
