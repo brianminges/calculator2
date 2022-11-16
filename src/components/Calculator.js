@@ -12,15 +12,23 @@ export const Calculator = () => {
     let number = ""
     const setNumber = (value) => {
         if (!operator) {
-            // Sets first number in equation and allows for multi-digit numbers
-            number = first + value
-            setFirst(number)
+            // Sets first number in equation, prevents multiple decimal points and allows for multi-digit numbers
+            if (first.includes('.') && value === '.') {
+                number = number
+            } else {
+                number = first + value
+                setFirst(number)
+            }
         }
 
         // Sets second number in equation and allows for multi-digit numbers
         if (operator) {
-            number = second + value
-            setSecond(number)
+            if (second.includes('.') && value === '.') {
+                number = number
+            } else {
+                number = second + value
+                setSecond(number)
+            }
         }
     }
 
@@ -40,7 +48,12 @@ export const Calculator = () => {
 
 
     const setOperation = (operator) => {
-        setOperator(operator)
+        // Prevents user from inputting operator without a first number
+        if (!first) {
+            setOperator("")
+        } else {
+            setOperator(operator)
+        }
     }
 
     const calculate = () => {
@@ -123,6 +136,10 @@ export const Calculator = () => {
         setResult("")
         setSecond("")
     }
+
+    // const delNum = () => {
+    //     if (!operator)
+    // }
 
 
     const equationDisplay = () => {
