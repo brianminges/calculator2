@@ -43,7 +43,7 @@ body {
 .calculator__buttons {
     display: grid;
     grid-template-columns: repeat(4, 4rem);
-    grid-template-rows: repeat(5, 4rem);
+    grid-template-rows: repeat(6, 4rem);
     border: none;
     outline: none;
     gap: 5px;
@@ -96,5 +96,10 @@ body {
     grid-column-start: 3;
     grid-column-end: 5;
     background-color: #EB6440;
+}
+
+#exponent,
+#square {
+    font-style: italic;
 }
 

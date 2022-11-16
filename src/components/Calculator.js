@@ -9,6 +9,14 @@ export const Calculator = () => {
     const [ operator, setOperator ] = useState("")
     const [ result, setResult ] = useState("")
 
+    useEffect(() => {
+        console.log('operator', operator)
+    }, [operator])
+
+    useEffect(() => {
+        console.log('second', second)
+    }, [second])
+
     let number = ""
     const setNumber = (value) => {
         // Sets first number in equation, prevents multiple decimal points and allows for multi-digit numbers
@@ -31,21 +39,6 @@ export const Calculator = () => {
             }
         }
     }
-
-
-    // useEffect(() => {
-    //     console.log('second', second)
-    // }, [second])
-
-    // useEffect(() => {
-    //     console.log('first', first)
-    // }, [first])
-
-    // useEffect(() => {
-    //     console.log('result', result)
-    // }, [result])
-
-
 
     const setOperation = (operator) => {
         // Prevents user from inputting operator without a first number
@@ -128,8 +121,24 @@ export const Calculator = () => {
             setSecond("")
             setOperator("")
         }
+        if (operator === '**') {
+            const answer = Math.pow(first, second)
+            setResult(answer)
+            setFirst(answer)
+            setSecond("")
+            setOperator("")
+        }
+        if (operator === '^2') {
+            let answer = (first * first) * 100
+            answer = answer/100
+            setResult(answer)
+            setFirst(answer)
+            setSecond("")
+            setOperator("")
+        }
     }
 
+    // Resets all values and operator and clears display
     const clear = () => {
         setFirst("")
         setOperator("")
@@ -137,6 +146,7 @@ export const Calculator = () => {
         setSecond("")
     }
 
+    // Deletes the most recently entered digit
     const deleteNumber = () => {
         if (!operator) {
             const newFirst = first.slice(0, first.length-1)
@@ -147,9 +157,26 @@ export const Calculator = () => {
         }
     }
 
+    // Toggles input between positive and negative
+    const negative = () => {
+        if (second) {
+            const negSecond = second * -1
+            setSecond(negSecond)
+        } else if (first) {
+           const negFirst = first * -1
+           setFirst(negFirst)
+        }
+    }
+
+    // const square = (value) => {
+    //     if (first) {
+    //         const answer = value * value
+    //         setResult(answer)
+    //     }
+    // }
 
     const equationDisplay = () => {
-        if (second && operator === '/' || operator === '-' || operator === '+' || operator === '*') {
+        if (second && operator === '/' || operator === '-' || operator === '+' || operator === '*' || operator === '**') {
             return `${first} ${operator} ${second}`
         } else {
             return `${first || '-'} ${operator}`
@@ -186,6 +213,10 @@ export const Calculator = () => {
                 <button onClick={() => setNumber('0')} className="calculator__button">0</button>
                 <button onClick={() => setNumber('.')} className="calculator__button">.</button>
                 <button onClick={() => calculate()} id="total">=</button>
+
+                <button onClick={() => negative()} className="calculator__operator" id="negative">+-</button>
+                <button onClick={() => setOperation('^2')} className="calculator__operator" id="square">x<sup>2</sup></button>
+                <button onClick={() => setOperation('**')} className="calculator__operator" id="exponent">x<sup>y</sup></button>
                 {/* <OperatorButton operator='/'/> 
                 <NumberButton value='7' setFirst={setFirst}/> 
                 <NumberButton value='8'/>  
