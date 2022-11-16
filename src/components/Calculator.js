@@ -11,8 +11,8 @@ export const Calculator = () => {
 
     let number = ""
     const setNumber = (value) => {
+        // Sets first number in equation, prevents multiple decimal points and allows for multi-digit numbers
         if (!operator) {
-            // Sets first number in equation, prevents multiple decimal points and allows for multi-digit numbers
             if (first.includes('.') && value === '.') {
                 number = number
             } else {
@@ -21,7 +21,7 @@ export const Calculator = () => {
             }
         }
 
-        // Sets second number in equation and allows for multi-digit numbers
+        // Sets second number in equation, prevents multiple decimal points and allows for multi-digit numbers
         if (operator) {
             if (second.includes('.') && value === '.') {
                 number = number
@@ -137,9 +137,15 @@ export const Calculator = () => {
         setSecond("")
     }
 
-    // const delNum = () => {
-    //     if (!operator)
-    // }
+    const deleteNumber = () => {
+        if (!operator) {
+            const newFirst = first.slice(0, first.length-1)
+            setFirst(newFirst)
+        } else {
+            const newSecond = second.slice(0, second.length-1)
+            setSecond(newSecond)
+        }
+    }
 
 
     const equationDisplay = () => {
@@ -148,7 +154,6 @@ export const Calculator = () => {
         } else {
             return `${first || '-'} ${operator}`
         }
-
     }
 
     return (
@@ -163,8 +168,8 @@ export const Calculator = () => {
                 </div>
             </div>
             <div className="calculator__buttons">
-                <button onClick={() => clear()}id="ac">Clear</button>
-                <button id="del">Del</button>
+                <button onClick={() => clear()} id="ac">Clear</button>
+                <button onClick={() => deleteNumber()} id="del">Del</button>
                 <button onClick={() => setOperation('/')} className="calculator__operator">/</button>
                 <button onClick={() => setNumber('7')} className="calculator__button">7</button>
                 <button onClick={() => setNumber('8')} className="calculator__button">8</button>

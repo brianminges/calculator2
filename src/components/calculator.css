@@ -12,7 +12,6 @@ body {
     justify-content: center;
     height: 100vh;
     font-family: 'Roboto', sans-serif;
-    
 }
 
 .calculator__body {
@@ -59,7 +58,10 @@ body {
     outline: none;
 }
 
-.calculator__buttons button:hover {
+.calculator__buttons button:hover,
+#total:hover,
+#ac:hover,
+#del:hover {
     background-color: gray;
     color: black;
 }
@@ -73,7 +75,10 @@ body {
 }
 
 .calculator__button:active, 
-.calculator__operator:active {
+.calculator__operator:active,
+#total:active,
+#ac:active,
+#del:active {
     box-shadow: 0px 0px 5px black;
 }
  
