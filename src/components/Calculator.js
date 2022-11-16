@@ -8,16 +8,8 @@ export const Calculator = () => {
     const [ second, setSecond ] = useState("")
     const [ operator, setOperator ] = useState("")
     const [ result, setResult ] = useState("")
-
-    useEffect(() => {
-        console.log('operator', operator)
-    }, [operator])
-
-    useEffect(() => {
-        console.log('second', second)
-    }, [second])
-
     let number = ""
+
     const setNumber = (value) => {
         // Sets first number in equation, prevents multiple decimal points and allows for multi-digit numbers
         if (!operator) {
@@ -138,7 +130,7 @@ export const Calculator = () => {
         }
     }
 
-    // Resets all values and operator and clears display
+    // Resets all values/operator and clears display
     const clear = () => {
         setFirst("")
         setOperator("")
@@ -167,13 +159,6 @@ export const Calculator = () => {
            setFirst(negFirst)
         }
     }
-
-    // const square = (value) => {
-    //     if (first) {
-    //         const answer = value * value
-    //         setResult(answer)
-    //     }
-    // }
 
     const equationDisplay = () => {
         if (second && operator === '/' || operator === '-' || operator === '+' || operator === '*' || operator === '**') {
