@@ -79,12 +79,11 @@ export const Calculator = () => {
     }
 
 
-
+    // use 9.9 / 3.3 as test case
     const calculate = () => {
         if (operator === '/') {
             const quotient = first/second
             setResult(quotient)
-            //Takes result and moves to 'first' to allow process to continue with result as the starting number. Also resets second and operator to make clear display. 
             setFirst(quotient)
             setSecond("")
             setOperator("")
@@ -230,7 +229,7 @@ export const Calculator = () => {
             <div className="calculator__buttons">
                 <button onClick={() => clear()} id="ac">Clear</button>
                 <button onClick={() => deleteNumber()} id="del">Del</button>
-                <button onClick={() => setOperation('/')} className="calculator__operator">/</button>
+                <button onClick={() => setOperation('/')} className="calculator__operator">÷</button>
                 <button onClick={() => setNumber('7')} className="calculator__button">7</button>
                 <button onClick={() => setNumber('8')} className="calculator__button">8</button>
                 <button onClick={() => setNumber('9')} className="calculator__button">9</button>
