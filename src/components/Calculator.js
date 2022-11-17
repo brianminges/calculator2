@@ -9,6 +9,7 @@ export const Calculator = () => {
     const [ operator, setOperator ] = useState("")
     const [ result, setResult ] = useState("")
     let number = ""
+    let decimalPlaces = ""
 
     const setNumber = (value) => {
         // Sets first number in equation, prevents multiple decimal points and allows for multi-digit numbers
@@ -40,6 +41,44 @@ export const Calculator = () => {
             setOperator(operator)
         }
     }
+    
+    // Ensures the correct number of decimal places are returned for floats. It compares the number of decimal places in each number, than uses the larger of those in toFixed(). 
+    const decimalFormat = () => {
+        // Changes to string to use .includes()
+        let firstString = first.toString()
+        let secondString = second.toString()
+        if (operator === '*' && firstString.includes('.') && secondString.includes('.')) {
+            const firstSplit = firstString.split('.')
+            let firstDecimals = firstSplit[1].length
+            const secondSplit = secondString.split('.')
+            let secondDecimals = secondSplit[1].length
+            decimalPlaces = firstDecimals + secondDecimals
+        } else if (operator === '*' && firstString.includes('.') && !secondString.includes('.')) {
+            const firstSplit = firstString.split('.')
+            decimalPlaces = firstSplit[1].length
+        } else if (operator === '*' && !firstString.includes('.') && secondString.includes('.')) {
+            const firstSplit = firstString.split('.')
+            decimalPlaces = firstSplit[1].length
+        } else if (firstString.includes('.') && secondString.includes('.')) {
+            const firstSplit = firstString.split('.')
+            let firstDecimals = firstSplit[1].length
+            const secondSplit = secondString.split('.')
+            let secondDecimals = secondSplit[1].length
+            if (firstDecimals >= secondDecimals) {
+                decimalPlaces = firstDecimals
+            } else {
+                decimalPlaces = secondDecimals
+            }
+        } else if (firstString.includes('.')) {
+            let firstSplit = firstString.split('.')
+            decimalPlaces = firstSplit[1].length
+        } else if (secondString.includes('.')) {
+            let secondSplit = secondString.split('.')
+            decimalPlaces = secondSplit[1].length
+        } 
+    }
+
+
 
     const calculate = () => {
         if (operator === '/') {
@@ -53,24 +92,25 @@ export const Calculator = () => {
         if (operator === '-') {
             let difference = (parseFloat(first) - parseFloat(second)) *100
             // The following ensures the correct number of decimal places are returned for floats. It compares the number of decimal places in each number, than uses the larger of those in toFixed(). 
-            let decimalPlaces = ""
-            if (first.includes('.') && second.includes('.')) {
-                const firstSplit = first.split('.')
-                let firstDecimals = firstSplit[1].length
-                const secondSplit = second.split('.')
-                let secondDecimals = secondSplit[1].length
-                if (firstDecimals >= secondDecimals) {
-                    decimalPlaces = firstDecimals
-                } else {
-                    decimalPlaces = secondDecimals
-                }
-            } else if (first.includes('.')) {
-                let firstSplit = first.split('.')
-                decimalPlaces = firstSplit[1].length
-            } else if (second.includes('.')) {
-                let secondSplit = second.split('.')
-                decimalPlaces = secondSplit[1].length
-            }
+            decimalFormat()
+            // let decimalPlaces = ""
+            // if (first.includes('.') && second.includes('.')) {
+            //     const firstSplit = first.split('.')
+            //     let firstDecimals = firstSplit[1].length
+            //     const secondSplit = second.split('.')
+            //     let secondDecimals = secondSplit[1].length
+            //     if (firstDecimals >= secondDecimals) {
+            //         decimalPlaces = firstDecimals
+            //     } else {
+            //         decimalPlaces = secondDecimals
+            //     }
+            // } else if (first.includes('.')) {
+            //     let firstSplit = first.split('.')
+            //     decimalPlaces = firstSplit[1].length
+            // } else if (second.includes('.')) {
+            //     let secondSplit = second.split('.')
+            //     decimalPlaces = secondSplit[1].length
+            // }
             difference = (difference/100).toFixed(decimalPlaces)
             setResult(difference)
             setFirst(difference)
@@ -79,50 +119,58 @@ export const Calculator = () => {
             
         }
         if (operator === '*') {
-            let product = (first * second) * 100
-            product = product/100
+            let product = first * second  
+            decimalFormat()
+            product = product.toFixed(decimalPlaces)
             setResult(product)
             setFirst(product)
             setSecond("")
             setOperator("")
         }
         if (operator === '+') {
-            let sum = (parseFloat(first) + parseFloat(second)) * 100 
+            let sum = parseFloat(first) + parseFloat(second)  
             // The following ensures the correct number of decimal places are returned for floats. It compares the number of decimal places in each number, than uses the larger of those in toFixed(). 
-            let decimalPlaces = ""
-            if (first.includes('.') && second.includes('.')) {
-                const firstSplit = first.split('.')
-                let firstDecimals = firstSplit[1].length
-                const secondSplit = second.split('.')
-                let secondDecimals = secondSplit[1].length
-                if (firstDecimals >= secondDecimals) {
-                    decimalPlaces = firstDecimals
-                } else {
-                    decimalPlaces = secondDecimals
-                }
-            } else if (first.includes('.')) {
-                let firstSplit = first.split('.')
-                decimalPlaces = firstSplit[1].length
-            } else if (second.includes('.')) {
-                let secondSplit = second.split('.')
-                decimalPlaces = secondSplit[1].length
-            }
-            sum = (sum/100).toFixed(decimalPlaces)
+            decimalFormat()
+            // let decimalPlaces = ""
+            // // Changes to string to use .includes()
+            // let firstString = first.toString()
+            // let secondString = second.toString()
+            // if (firstString.includes('.') && secondString.includes('.')) {
+            //     const firstSplit = firstString.split('.')
+            //     let firstDecimals = firstSplit[1].length
+            //     const secondSplit = secondString.split('.')
+            //     let secondDecimals = secondSplit[1].length
+            //     if (firstDecimals >= secondDecimals) {
+            //         decimalPlaces = firstDecimals
+            //     } else {
+            //         decimalPlaces = secondDecimals
+            //     }
+            // } else if (firstString.includes('.')) {
+            //     let firstSplit = firstString.split('.')
+            //     decimalPlaces = firstSplit[1].length
+            // } else if (secondString.includes('.')) {
+            //     let secondSplit = secondString.split('.')
+            //     decimalPlaces = secondSplit[1].length
+            // }
+            sum = sum.toFixed(decimalPlaces)
             setResult(sum)
             setFirst(sum)
             setSecond("")
             setOperator("")
-        }
-        if (operator === '**') {
+        } else if (operator === '**') {
             const answer = Math.pow(first, second)
             setResult(answer)
             setFirst(answer)
             setSecond("")
             setOperator("")
-        }
-        if (operator === '^2') {
-            let answer = (first * first) * 100
-            answer = answer/100
+        } else if (operator === '^2') {
+            const answer = Math.pow(first, 2)
+            setResult(answer)
+            setFirst(answer)
+            setSecond("")
+            setOperator("")
+        } else if (operator === '√') {
+            const answer = Math.sqrt(first)
             setResult(answer)
             setFirst(answer)
             setSecond("")
@@ -202,6 +250,7 @@ export const Calculator = () => {
                 <button onClick={() => negative()} className="calculator__operator" id="negative">+-</button>
                 <button onClick={() => setOperation('^2')} className="calculator__operator" id="square">x<sup>2</sup></button>
                 <button onClick={() => setOperation('**')} className="calculator__operator" id="exponent">x<sup>y</sup></button>
+                <button onClick={() => setOperation('√')} className="calculator__operator" id="radical">√</button>
                 {/* <OperatorButton operator='/'/> 
                 <NumberButton value='7' setFirst={setFirst}/> 
                 <NumberButton value='8'/>  
