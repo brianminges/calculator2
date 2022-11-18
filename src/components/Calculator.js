@@ -11,10 +11,6 @@ export const Calculator = () => {
     let number = ""
     let decimalPlaces = ""
 
-    useEffect(() => {
-        console.log(decimalPlaces)
-    }, [decimalPlaces])
-
     const setNumber = (value) => {
         // Sets first number in equation, prevents multiple decimal points and allows for multi-digit numbers
         if (!operator) {
@@ -46,12 +42,16 @@ export const Calculator = () => {
         }
     }
     
-    // Ensures the correct number of decimal places are returned for floats. It compares the number of decimal places in each number, than uses the larger of those in toFixed(). 
+    // Ensures the correct number of decimal places are returned for floats. 
     const decimalFormat = () => {
         // Changes to string to use .includes()
         let firstString = first.toString()
         let secondString = second.toString()
-        if (operator === '*' && firstString.includes('.') && secondString.includes('.')) {
+        if (operator === '^2') {
+            const firstSplit = firstString.split('.')
+            let firstDecimals = firstSplit[1].length * 2
+            decimalPlaces = firstDecimals
+        } else if (operator === '*' && firstString.includes('.') && secondString.includes('.')) {
             const firstSplit = firstString.split('.')
             let firstDecimals = firstSplit[1].length
             const secondSplit = secondString.split('.')
@@ -61,8 +61,8 @@ export const Calculator = () => {
             const firstSplit = firstString.split('.')
             decimalPlaces = firstSplit[1].length
         } else if (operator === '*' && !firstString.includes('.') && secondString.includes('.')) {
-            const firstSplit = firstString.split('.')
-            decimalPlaces = firstSplit[1].length
+            const secondSplit = secondString.split('.')
+            decimalPlaces = secondSplit[1].length
         } else if (firstString.includes('.') && secondString.includes('.')) {
             const firstSplit = firstString.split('.')
             let firstDecimals = firstSplit[1].length
@@ -79,10 +79,6 @@ export const Calculator = () => {
         } else if (secondString.includes('.')) {
             let secondSplit = secondString.split('.')
             decimalPlaces = secondSplit[1].length
-        } else if (operator === '^2') {
-            const firstSplit = firstString.split('.')
-            let firstDecimals = firstSplit[1].length * 2
-            decimalPlaces = firstDecimals
         } 
     }
 
@@ -112,6 +108,7 @@ export const Calculator = () => {
         } else if (operator === '+') {
             let sum = parseFloat(first) + parseFloat(second)  
             decimalFormat()
+            sum = sum.toFixed(decimalPlaces)
             returnAndResetEquation(sum)
         } else if (operator === '**') {
             const answer = Math.pow(first, second)
