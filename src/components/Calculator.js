@@ -48,9 +48,16 @@ export const Calculator = () => {
         let firstString = first.toString()
         let secondString = second.toString()
         if (operator === '^2') {
-            const firstSplit = firstString.split('.')
-            let firstDecimals = firstSplit[1].length * 2
-            decimalPlaces = firstDecimals
+            if (firstString.includes('.')) {
+                const firstSplit = firstString.split('.')
+                let firstDecimals = firstSplit[1].length * 2
+                decimalPlaces = firstDecimals
+            } else {
+                decimalPlaces = decimalPlaces
+            }
+            // const firstSplit = firstString.split('.')
+            // let firstDecimals = firstSplit[1].length * 2
+            // decimalPlaces = firstDecimals
         } else if (operator === '*' && firstString.includes('.') && secondString.includes('.')) {
             const firstSplit = firstString.split('.')
             let firstDecimals = firstSplit[1].length
@@ -176,6 +183,13 @@ export const Calculator = () => {
             <div className="calculator__buttons">
                 <button onClick={() => clear()} id="ac">Clear</button>
                 <button onClick={() => deleteNumber()} id="del">Del</button>
+                <button onClick={() => negative()} className="calculator__operator" id="negative">+-</button>
+                <button onClick={() => setOperation('^2')} className="calculator__operator" id="square">x<sup>2</sup></button>
+                <button onClick={() => setOperation('**')} className="calculator__operator" id="exponent">x<sup>y</sup></button>
+                <button onClick={() => setOperation('√')} className="calculator__operator" id="radical">√</button>
+
+                {/* <button onClick={() => clear()} id="ac">Clear</button>
+                <button onClick={() => deleteNumber()} id="del">Del</button> */}
                 <button onClick={() => setOperation('/')} className="calculator__operator">÷</button>
                 <button onClick={() => setNumber('7')} className="calculator__button">7</button>
                 <button onClick={() => setNumber('8')} className="calculator__button">8</button>
@@ -193,10 +207,10 @@ export const Calculator = () => {
                 <button onClick={() => setNumber('.')} className="calculator__button">.</button>
                 <button onClick={() => calculate()} id="total">=</button>
 
-                <button onClick={() => negative()} className="calculator__operator" id="negative">+-</button>
+                {/* <button onClick={() => negative()} className="calculator__operator" id="negative">+-</button>
                 <button onClick={() => setOperation('^2')} className="calculator__operator" id="square">x<sup>2</sup></button>
                 <button onClick={() => setOperation('**')} className="calculator__operator" id="exponent">x<sup>y</sup></button>
-                <button onClick={() => setOperation('√')} className="calculator__operator" id="radical">√</button>
+                <button onClick={() => setOperation('√')} className="calculator__operator" id="radical">√</button> */}
                 {/* <OperatorButton operator='/'/> 
                 <NumberButton value='7' setFirst={setFirst}/> 
                 <NumberButton value='8'/>  
