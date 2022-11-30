@@ -12,6 +12,7 @@ body {
     justify-content: center;
     height: 100vh;
     font-family: 'Roboto', sans-serif;
+    background-color: lightgray;
 }
 
 .calculator__body {
@@ -27,7 +28,7 @@ body {
     color: white;
     font-weight: bold;
     margin-bottom: 1rem;
-    min-height: 63px;
+    min-height: 65px;
     padding: 10px;
     text-align: right;
     word-break: break-all;
