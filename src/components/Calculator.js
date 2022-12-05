@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, {useState} from "react";
 import "./calculator.css"
 
 export const Calculator = () => {
@@ -53,9 +53,6 @@ export const Calculator = () => {
             } else {
                 decimalPlaces = decimalPlaces
             }
-            // const firstSplit = firstString.split('.')
-            // let firstDecimals = firstSplit[1].length * 2
-            // decimalPlaces = firstDecimals
         } else if (operator === '*' && firstString.includes('.') && secondString.includes('.')) {
             const firstSplit = firstString.split('.')
             let firstDecimals = firstSplit[1].length
@@ -132,8 +129,8 @@ export const Calculator = () => {
     const clear = () => {
         setFirst("")
         setOperator("")
-        setResult("")
         setSecond("")
+        setResult("")
     }
 
     // Deletes the most recently entered digit
@@ -141,7 +138,6 @@ export const Calculator = () => {
         if (!operator) {
             const firstString = first.toString()
             const newFirst = firstString.slice(0, firstString.length-1) 
-            // const newFirst = first.slice(0, first.length-1)
             setFirst(newFirst)
         } else {
             const newSecond = second.slice(0, second.length-1)
