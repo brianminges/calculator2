@@ -1,6 +1,4 @@
 import React, {useEffect, useState} from "react";
-import { NumberButton } from "./NumberButton";
-import { OperatorButton } from "./OperatorButton";
 import "./calculator.css"
 
 export const Calculator = () => {
@@ -97,7 +95,6 @@ export const Calculator = () => {
         setOperator("")
     }
 
-    // use 9.9 / 3.3 as test case
     const calculate = () => {
         if (operator === '/') {
             const quotient = parseFloat(first*100)/parseFloat(second*100)
@@ -117,7 +114,7 @@ export const Calculator = () => {
             decimalFormat()
             sum = sum.toFixed(decimalPlaces)
             returnAndResetEquation(sum)
-        } else if (operator === '**') {
+        } else if (operator === '^') {
             const answer = Math.pow(first, second)
             returnAndResetEquation(answer)
         } else if (operator === '^2') {
@@ -142,7 +139,9 @@ export const Calculator = () => {
     // Deletes the most recently entered digit
     const deleteNumber = () => {
         if (!operator) {
-            const newFirst = first.slice(0, first.length-1)
+            const firstString = first.toString()
+            const newFirst = firstString.slice(0, firstString.length-1) 
+            // const newFirst = first.slice(0, first.length-1)
             setFirst(newFirst)
         } else {
             const newSecond = second.slice(0, second.length-1)
@@ -162,7 +161,7 @@ export const Calculator = () => {
     }
 
     const equationDisplay = () => {
-        if (second && operator === '/' || operator === '-' || operator === '+' || operator === '*' || operator === '**') {
+        if (second && operator === '/' || operator === '-' || operator === '+' || operator === '*' || operator === '^') {
             return `${first} ${operator} ${second}`
         } else {
             return `${first || '-'} ${operator}`
@@ -185,11 +184,8 @@ export const Calculator = () => {
                 <button onClick={() => deleteNumber()} id="del">Del</button>
                 <button onClick={() => negative()} className="calculator__operator" id="negative">+-</button>
                 <button onClick={() => setOperation('^2')} className="calculator__operator" id="square">x<sup>2</sup></button>
-                <button onClick={() => setOperation('**')} className="calculator__operator" id="exponent">x<sup>y</sup></button>
+                <button onClick={() => setOperation('^')} className="calculator__operator" id="exponent">x<sup>y</sup></button>
                 <button onClick={() => setOperation('√')} className="calculator__operator" id="radical">√</button>
-
-                {/* <button onClick={() => clear()} id="ac">Clear</button>
-                <button onClick={() => deleteNumber()} id="del">Del</button> */}
                 <button onClick={() => setOperation('/')} className="calculator__operator">÷</button>
                 <button onClick={() => setNumber('7')} className="calculator__button">7</button>
                 <button onClick={() => setNumber('8')} className="calculator__button">8</button>
@@ -206,27 +202,6 @@ export const Calculator = () => {
                 <button onClick={() => setNumber('0')} className="calculator__button">0</button>
                 <button onClick={() => setNumber('.')} className="calculator__button">.</button>
                 <button onClick={() => calculate()} id="total">=</button>
-
-                {/* <button onClick={() => negative()} className="calculator__operator" id="negative">+-</button>
-                <button onClick={() => setOperation('^2')} className="calculator__operator" id="square">x<sup>2</sup></button>
-                <button onClick={() => setOperation('**')} className="calculator__operator" id="exponent">x<sup>y</sup></button>
-                <button onClick={() => setOperation('√')} className="calculator__operator" id="radical">√</button> */}
-                {/* <OperatorButton operator='/'/> 
-                <NumberButton value='7' setFirst={setFirst}/> 
-                <NumberButton value='8'/>  
-                <NumberButton value='9'/> 
-                <OperatorButton operator='-'/> 
-                <NumberButton value='4'/> 
-                <NumberButton value='5'/> 
-                <NumberButton value='6'/> 
-                <OperatorButton operator='*'/> 
-                <NumberButton value='1'/> 
-                <NumberButton value='2'/> 
-                <NumberButton value='3'/> 
-                <OperatorButton operator='+'/> 
-                <NumberButton value='0'/> 
-                <NumberButton value='.'/>  */}
-                
             </div>
         </div>
         </>
