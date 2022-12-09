@@ -6,12 +6,16 @@ export const Calculator = () => {
     const [ second, setSecond ] = useState("")
     const [ operator, setOperator ] = useState("")
     const [ result, setResult ] = useState("")
+    const [ equalBtn, setEqualBtn ] = useState(false)
     let number = ""
     let decimalPlaces = ""
 
     const setNumber = (value) => {
-        // Sets first number in equation, prevents multiple decimal points and allows for multi-digit numbers
-        if (!operator) {
+        // Allows user to input new number after hitting equal button. Then sets first number in equation, prevents multiple decimal points and allows for multi-digit numbers
+        if (!operator && equalBtn === true) {
+            setFirst(value)
+            setEqualBtn(false)
+        } else if (!operator) {
             let firstString = first.toString()
             if (firstString.includes('.') && value === '.') {
                 number = number
@@ -90,6 +94,7 @@ export const Calculator = () => {
         setFirst(value)
         setSecond("")
         setOperator("")
+        setEqualBtn(true)
     }
 
     const calculate = () => {
